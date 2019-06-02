@@ -984,5 +984,33 @@ llvm::raw_ostream &operator<<(llvm::raw_ostream &OS, OffsetEncoding Enc) {
   return OS << toString(Enc);
 }
 
+bool fromJSON(const llvm::json::Value &Params, FoldingRangeParams &R) {
+  llvm::json::ObjectMapper O(Params);
+  return O && O.map("textDocument", R.textDocument);
+}
+
+StringRef toString(const FoldingRangeKind &FRK) {
+  switch (FRK) {
+  case FoldingRangeKind::Comment:
+    return "Comment";
+  case FoldingRangeKind::Imports:
+    return "Imports";
+  case FoldingRangeKind::Region:
+    return "Region";
+  }
+}
+
+llvm::json::Value toJSON(const FoldingRange &FR) {
+  llvm::json::Object Result{{"startLine", FR.startLine},
+                            {"endLine", FR.endLine}};
+  if (FR.startCharacter)
+    Result["startCharacter"] = FR.startCharacter;
+  if (FR.endCharacter)
+    Result["endCharacter"] = FR.endCharacter;
+  if (FR.kind)
+    Result["kind"] = FR.kind;
+  return std::move(Result);
+}
+
 } // namespace clangd
 } // namespace clang
