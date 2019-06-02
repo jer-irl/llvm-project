@@ -1135,6 +1135,25 @@ struct FileStatus {
 };
 llvm::json::Value toJSON(const FileStatus &FStatus);
 
+struct FoldingRangeParams {
+  TextDocumentIdentifier textDocument;
+};
+bool fromJSON(const llvm::json::Value &, FoldingRangeParams &);
+
+enum class FoldingRangeKind {
+  Comment, Imports, Region
+};
+StringRef toString(const FoldingRangeKind &);
+
+struct FoldingRange {
+  int startLine;
+  llvm::Optional<int> startCharacter;
+  int endLine;
+  llvm::Optional<int> endCharacter;
+  llvm::Optional<StringRef> kind;
+};
+llvm::json::Value toJSON(const FoldingRange &);
+
 } // namespace clangd
 } // namespace clang
 

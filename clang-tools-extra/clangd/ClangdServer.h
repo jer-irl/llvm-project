@@ -247,6 +247,9 @@ public:
   void symbolInfo(PathRef File, Position Pos,
                   Callback<std::vector<SymbolDetails>> CB);
 
+  void foldingRanges(PathRef File,
+                     Callback<llvm::Optional<std::vector<FoldingRange>>> CB);
+
   /// Returns estimated memory usage for each of the currently open files.
   /// The order of results is unspecified.
   /// Overall memory usage of clangd may be significantly more than reported

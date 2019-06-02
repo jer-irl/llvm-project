@@ -100,6 +100,8 @@ private:
   void onChangeConfiguration(const DidChangeConfigurationParams &);
   void onSymbolInfo(const TextDocumentPositionParams &,
                     Callback<std::vector<SymbolDetails>>);
+  void onFoldingRange(const FoldingRangeParams &,
+                      Callback<llvm::Optional<std::vector<FoldingRange>>>);
 
   std::vector<Fix> getFixes(StringRef File, const clangd::Diagnostic &D);
 

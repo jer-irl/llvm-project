@@ -902,6 +902,12 @@ void ClangdLSPServer::onSymbolInfo(const TextDocumentPositionParams &Params,
                      std::move(Reply));
 }
 
+void ClangdLSPServer::onFoldingRange(
+    const FoldingRangeParams &Params,
+    Callback<llvm::Optional<std::vector<FoldingRange>>> Reply) {
+  Server->foldingRanges(Params.textDocument.uri.file(), std::move(Reply));
+}
+
 ClangdLSPServer::ClangdLSPServer(
     class Transport &Transp, const FileSystemProvider &FSProvider,
     const clangd::CodeCompleteOptions &CCOpts,
@@ -942,6 +948,7 @@ ClangdLSPServer::ClangdLSPServer(
   MsgHandler->bind("workspace/didChangeConfiguration", &ClangdLSPServer::onChangeConfiguration);
   MsgHandler->bind("textDocument/symbolInfo", &ClangdLSPServer::onSymbolInfo);
   MsgHandler->bind("textDocument/typeHierarchy", &ClangdLSPServer::onTypeHierarchy);
+  MsgHandler->bind("textDocument/foldingRange", &ClangdLSPServer::onFoldingRange);
   // clang-format on
 }
 

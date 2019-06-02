@@ -10,6 +10,7 @@
 #include "ClangdUnit.h"
 #include "CodeComplete.h"
 #include "FindSymbols.h"
+#include "Fold.h"
 #include "Headers.h"
 #include "Protocol.h"
 #include "SourceCode.h"
@@ -526,6 +527,20 @@ void ClangdServer::findReferences(PathRef File, Position Pos, uint32_t Limit,
   };
 
   WorkScheduler.runWithAST("References", File, Bind(Action, std::move(CB)));
+}
+
+void ClangdServer::foldingRanges(
+    PathRef File,
+    Callback<llvm::Optional<std::vector<FoldingRange>>> CB) {
+  auto Action = [](Callback<llvm::Optional<std::vector<FoldingRange>>> CB,
+                   llvm::Expected<InputsAndAST> InpAST) {
+    if (!InpAST)
+      return CB(InpAST.takeError());
+    CB(llvm::Optional<std::vector<FoldingRange>>(
+        clangd::findFoldingRanges(InpAST->AST)));
+  };
+
+  WorkScheduler.runWithAST("FoldingRanges", File, Bind(Action, std::move(CB)));
 }
 
 void ClangdServer::symbolInfo(PathRef File, Position Pos,

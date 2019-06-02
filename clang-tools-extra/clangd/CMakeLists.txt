@@ -47,6 +47,7 @@ add_clang_library(clangDaemon
   DraftStore.cpp
   ExpectedTypes.cpp
   FindSymbols.cpp
+  Fold.cpp
   FileDistance.cpp
   FS.cpp
   FSProvider.cpp
