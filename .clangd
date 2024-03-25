@@ -1,0 +1,12 @@
+Hover:
+  ShowAKA: Yes
+
+InlayHints:
+  BlockEnd: Yes
+
+Diagnostics:
+  UnusedIncludes: Strict
+  MissingIncludes: Strict
+
+CompileFlags:
+  Add: ["-std=c++20"]

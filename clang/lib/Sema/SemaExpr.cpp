@@ -60,6 +60,8 @@
 #include "llvm/Support/TypeSize.h"
 #include <optional>
 
+#include <iostream>
+
 using namespace clang;
 using namespace sema;
 
@@ -3426,6 +3428,7 @@ ExprResult Sema::BuildDeclarationNameExpr(const CXXScopeSpec &SS,
                                           bool AcceptInvalidDecl) {
   // If this is a single, fully-resolved result and we don't need ADL,
   // just build an ordinary singleton decl ref.
+  std::cout << __FUNCTION__ << std::endl;
   if (!NeedsADL && R.isSingleResult() &&
       !R.getAsSingle<FunctionTemplateDecl>() &&
       !ShouldLookupResultBeMultiVersionOverload(R))
