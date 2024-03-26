@@ -3122,6 +3122,7 @@ ExpectedDecl ASTNodeImporter::VisitRecordDecl(RecordDecl *D) {
       auto TInfoOrErr = import(DCXX->getLambdaTypeInfo());
       if (!TInfoOrErr)
         return TInfoOrErr.takeError();
+      std::cout << __PRETTY_FUNCTION__ << " : Trying cxxRecordDecl for lambda, isgeneric: " << DCXX
       if (GetImportedOrCreateSpecialDecl(
               D2CXX, CXXRecordDecl::CreateLambda, D, Importer.getToContext(),
               DC, *TInfoOrErr, Loc, DCXX->getLambdaDependencyKind(),
